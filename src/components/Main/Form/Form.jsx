@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { useSpeechContext } from "@speechly/react-client";
 
@@ -22,19 +22,19 @@ import formatDate from "../../../utils/formatDate";
 import { v4 as uuidv4 } from "uuid";
 import CustomSnackbar from "../../Snackbars/CustomSnackbar";
 
-const initialState = {
-  amount: "",
-  category: "",
-  type: "Income",
-  date: formatDate(new Date()),
-};
-
 const Form = () => {
   const classes = useStyles();
   const { segment } = useSpeechContext();
-  const { addTransaction } = useGlobalContext();
-  const [formData, setFormData] = useState(initialState);
-  const [open, setOpen] = useState(false);
+  const {
+    initialFormData,
+    formData,
+    setFormData,
+    addTransaction,
+    deleteTransaction,
+    alertType,
+
+    setOpen,
+  } = useGlobalContext();
 
   const selectedCategories =
     formData.type === "Income" ? incomeCategories : expenseCategories;
@@ -44,9 +44,16 @@ const Form = () => {
       return;
 
     setOpen(true);
-    addTransaction({ ...formData, amount: +formData.amount, id: uuidv4() });
+    //console.log(alertType);
+    if (alertType === "EDIT") {
+      deleteTransaction(formData.id);
+      addTransaction({ ...formData, amount: +formData.amount });
+    } else {
+      //setAlertType("SUCCESS");
+      addTransaction({ ...formData, amount: +formData.amount, id: uuidv4() });
+    }
 
-    setFormData(initialState);
+    setFormData(initialFormData);
   };
 
   useEffect(() => {
@@ -64,7 +71,7 @@ const Form = () => {
         segment.isFinal &&
         segment.intent.intent === "cancel_transaction"
       ) {
-        setFormData(initialState);
+        setFormData(initialFormData);
       }
 
       segment.entities.forEach((entity) => {
@@ -107,7 +114,7 @@ const Form = () => {
 
   return (
     <Grid container spacing={2}>
-      <CustomSnackbar open={open} setOpen={setOpen} />
+      <CustomSnackbar />
       <Grid items xs={12}>
         <Typography variant="subtitle2" align="center" gutterBottom>
           {segment ? (

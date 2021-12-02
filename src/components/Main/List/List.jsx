@@ -9,12 +9,18 @@ import {
   IconButton,
   Slide,
 } from "@material-ui/core";
-import { Delete, MoneyOff } from "@material-ui/icons";
+import { Delete, Edit, MoneyOff } from "@material-ui/icons";
 import useStyles from "./styles";
 import { useGlobalContext } from "../../../context/context";
 
 const List = () => {
-  const { transactions, deleteTransaction } = useGlobalContext();
+  const {
+    transactions,
+    editTransaction,
+    deleteTransaction,
+    setAlertType,
+    setOpen,
+  } = useGlobalContext();
   const classes = useStyles();
 
   return (
@@ -38,8 +44,22 @@ const List = () => {
               secondary={`$${transaction.amount}-${transaction.date}`}
             ></ListItemText>
             <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="edit">
+                <Edit
+                  onClick={() => {
+                    editTransaction(transaction.id);
+                    setAlertType("EDIT");
+                  }}
+                />
+              </IconButton>
               <IconButton edge="end" aria-label="delete">
-                <Delete onClick={() => deleteTransaction(transaction.id)} />
+                <Delete
+                  onClick={() => {
+                    deleteTransaction(transaction.id);
+                    setAlertType("DELETE");
+                    setOpen(true);
+                  }}
+                />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

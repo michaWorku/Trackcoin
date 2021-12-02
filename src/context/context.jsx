@@ -1,7 +1,8 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { useState, createContext, useReducer, useContext } from "react";
 import contextReducer from "./contextReducer";
+import formatDate from "../utils/formatDate";
 
-const initialState = JSON.parse(localStorage.getItem("transactions")) || [
+const initialTransaction = JSON.parse(localStorage.getItem("transactions")) || [
   {
     amount: 500,
     category: "Salary",
@@ -67,10 +68,31 @@ const initialState = JSON.parse(localStorage.getItem("transactions")) || [
   },
 ];
 
-const ExpenseTrackerContext = createContext(initialState);
+const initialFormData = {
+  id: "",
+  amount: "",
+  category: "",
+  type: "Income",
+  date: formatDate(new Date()),
+};
+const ExpenseTrackerContext = createContext(initialTransaction);
 
 export const Provider = ({ children }) => {
-  const [transactions, dispatch] = useReducer(contextReducer, initialState);
+  const [transactions, dispatch] = useReducer(
+    contextReducer,
+    initialTransaction
+  );
+  const [formData, setFormData] = useState(initialFormData);
+  const [alertType, setAlertType] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const editTransaction = (id) => {
+    const selected = transactions.filter(
+      (transaction) => transaction.id === id
+    )[0];
+
+    setFormData({ ...selected, id });
+  };
 
   const deleteTransaction = (id) => {
     dispatch({ type: "DELETE_TRANSACTION", payload: id });
@@ -88,7 +110,20 @@ export const Provider = ({ children }) => {
 
   return (
     <ExpenseTrackerContext.Provider
-      value={{ transactions, addTransaction, deleteTransaction, balance }}
+      value={{
+        initialFormData,
+        formData,
+        setFormData,
+        transactions,
+        addTransaction,
+        editTransaction,
+        deleteTransaction,
+        balance,
+        alertType,
+        setAlertType,
+        open,
+        setOpen,
+      }}
     >
       {children}
     </ExpenseTrackerContext.Provider>
