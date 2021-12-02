@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(./assets/money.png);
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+    url(./assets/money.jpg);
   background-size: cover;
 }

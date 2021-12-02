@@ -41,7 +41,7 @@ const List = () => {
             </ListItemAvatar>
             <ListItemText
               primary={transaction.category}
-              secondary={`$${transaction.amount}-${transaction.date}`}
+              secondary={`$${transaction.amount} - ${transaction.date}`}
             ></ListItemText>
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="edit">
@@ -56,8 +56,9 @@ const List = () => {
                 <Delete
                   onClick={() => {
                     deleteTransaction(transaction.id);
-                    setAlertType("DELETE");
+
                     setOpen(true);
+                    setAlertType("DELETE");
                   }}
                 />
               </IconButton>

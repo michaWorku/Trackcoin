@@ -12,6 +12,7 @@ const CustomSnackbar = () => {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") return;
     setOpen(!open);
+
     setAlertType("SUCCESS");
   };
 
@@ -28,7 +29,7 @@ const CustomSnackbar = () => {
         break;
       case "DELETE":
         severity = "error";
-        message = "delete";
+        message = "deleted";
         break;
       default:
         break;
@@ -52,6 +53,7 @@ const CustomSnackbar = () => {
           severity={severity}
           elevation={6}
           variant="filled"
+          autoHideDuration={6000}
         >
           {message}
         </MuiAlert>

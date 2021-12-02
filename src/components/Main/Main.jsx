@@ -18,9 +18,17 @@ const Main = () => {
   const { balance } = useGlobalContext();
   return (
     <Card className={classes.root}>
-      <CardHeader title="Budget Tracker" subheader="Powered By Speechly" />
+      <CardHeader
+        title="Money Tracker"
+        subheader="Powered By Speechly"
+        titleTypographyProps={{
+          variant: "h4",
+          component: "h4",
+        }}
+        className={classes.cardHeader}
+      />
       <CardContent>
-        <Typography align="center" variant="h5">
+        <Typography style={{ marginLeft: 20 }} variant="h5">
           Total Balance ${balance}
         </Typography>
         <Typography

@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   Grid,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -21,6 +22,7 @@ import {
 import formatDate from "../../../utils/formatDate";
 import { v4 as uuidv4 } from "uuid";
 import CustomSnackbar from "../../Snackbars/CustomSnackbar";
+import { AttachMoney } from "@material-ui/icons";
 
 const Form = () => {
   const classes = useStyles();
@@ -40,16 +42,20 @@ const Form = () => {
     formData.type === "Income" ? incomeCategories : expenseCategories;
 
   const createTransaction = () => {
-    if (Number.isNaN(Number(formData.amount)) || !formData.date.includes("-"))
+    if (
+      !formData.category ||
+      !Number(formData.amount) ||
+      !formData.date.includes("-")
+    ) {
       return;
+    }
 
     setOpen(true);
-    //console.log(alertType);
+
     if (alertType === "EDIT") {
       deleteTransaction(formData.id);
       addTransaction({ ...formData, amount: +formData.amount });
     } else {
-      //setAlertType("SUCCESS");
       addTransaction({ ...formData, amount: +formData.amount, id: uuidv4() });
     }
 
@@ -113,7 +119,7 @@ const Form = () => {
   }, [segment]);
 
   return (
-    <Grid container spacing={2}>
+    <Grid required container spacing={2}>
       <CustomSnackbar />
       <Grid items xs={12}>
         <Typography variant="subtitle2" align="center" gutterBottom>
@@ -137,7 +143,7 @@ const Form = () => {
         </FormControl>
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth>
+        <FormControl required fullWidth>
           <InputLabel>Category</InputLabel>
           <Select
             value={formData.category}
@@ -158,6 +164,10 @@ const Form = () => {
           type="number"
           label="amount"
           fullWidth
+          required
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
         />
@@ -173,15 +183,18 @@ const Form = () => {
           }
         />
       </Grid>
-      <Button
-        className={classes.button}
-        variant="outlined"
-        color="primary"
-        fullWidth
-        onClick={createTransaction}
-      >
-        Create
-      </Button>
+      <div className={classes.buttonCon}>
+        <Button
+          variant="contained"
+          endIcon={<AttachMoney align="center" />}
+          onClick={createTransaction}
+          type="submit"
+          className={classes.button}
+          size="large"
+        >
+          Create
+        </Button>
+      </div>
     </Grid>
   );
 };
