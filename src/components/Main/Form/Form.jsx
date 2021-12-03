@@ -11,11 +11,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 
-import {
-  PushToTalkButton,
-  PushToTalkButtonContainer,
-  ErrorPanel,
-} from "@speechly/react-ui";
+import { PushToTalkButton } from "@speechly/react-ui";
 
 import { useSpeechContext } from "@speechly/react-client";
 

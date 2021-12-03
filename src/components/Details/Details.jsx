@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, Typography } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import React from "react";
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 import useStyles from "./styles";
 import useTransactions from "../../useTransaction";
