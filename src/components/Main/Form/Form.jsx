@@ -60,7 +60,6 @@ const Form = () => {
     } else {
       addTransaction({ ...formData, amount: +formData.amount, id: uuidv4() });
     }
-
     setFormData(initialFormData);
   };
 
@@ -192,14 +191,14 @@ const Form = () => {
           endIcon={<AttachMoney align="center" />}
           onClick={createTransaction}
           type="submit"
-          className={classes.button}
+          className={alertType === "EDIT" ? classes.buttonEdit : classes.button}
         >
-          Create
+          {alertType === "EDIT" ? "Edit" : "Create"}
         </Button>
 
         <PushToTalkButton
           capturekey="(a spacebar)"
-          intro="Push to talk"
+          intro="Push to talk or hold a spacebar"
           size="55px"
           gradientStops={["#00ff00", "#00ff00"]}
         />
