@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   radioGroup: {
     display: "flex",
     justifyContent: "center",
@@ -9,19 +9,22 @@ export default makeStyles(() => ({
   buttonCon: {
     marginTop: "30px",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     width: "100%",
   },
   button: {
-    width: "40%",
-    height: "100%",
-    backgroundColor: "rgba(0,255,0,0.5)",
+    background:
+      "linear-gradient(to right bottom , rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0.1))",
     fontWeight: 600,
     borderRadius: 20,
     fontSize: 20,
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-bettween",
     alignItems: "center",
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 18,
+    },
   },
 }));

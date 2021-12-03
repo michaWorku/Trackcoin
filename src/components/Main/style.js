@@ -2,7 +2,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   root: {
-    backgroundColor: "rgba(245,245,245,1)",
+    borderRadius: 20,
+    backgroundImage:
+      "linear-gradient(to right bottom, rgba(0,255,0,0.5), rgba(255,0,0,0.5))",
   },
   media: {
     height: 0,
@@ -27,7 +29,9 @@ export default makeStyles((theme) => ({
   cardHeader: {
     textAlign: "center",
     margin: 20,
-    backgroundColor: "rgba(245,245,245,1)",
+    //backgroundColor: "#f7f7f7",
+    background:
+      "linear-gradient(to right bottom , rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0.1))",
     borderRadius: 20,
   },
 }));

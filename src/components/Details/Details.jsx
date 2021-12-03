@@ -10,30 +10,15 @@ const Details = ({ title }) => {
   const { total, chartData } = useTransactions(title);
   return (
     <Card className={title === "Income" ? classes.income : classes.expense}>
-      {/* <Typography
-        variant="h2"
-        style={{
-          fontSize: 30,
-          fontWeight: 900,
-          textAlign: "center",
-          margin: 20,
-        }}
-      >
-        {title} 
-      </Typography>*/}
-      {
-        <CardHeader
-          title={title}
-          titleTypographyProps={{
-            variant: "h4",
-            component: "h4",
-          }}
-          className={classes.cardHeader}
-        />
-      }
+      <Typography variant="h2" className={classes.cardHeader}>
+        {title}
+      </Typography>
+
       <CardContent>
-        <Typography variant="h5">${total}</Typography>
-        <Pie data={chartData} />
+        <Typography variant="h5" style={{ marginLeft: 20 }}>
+          ${total}
+        </Typography>
+        <Doughnut data={chartData} />
       </CardContent>
     </Card>
   );

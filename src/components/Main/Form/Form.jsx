@@ -11,6 +11,12 @@ import {
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 
+import {
+  PushToTalkButton,
+  PushToTalkButtonContainer,
+  ErrorPanel,
+} from "@speechly/react-ui";
+
 import { useSpeechContext } from "@speechly/react-client";
 
 import useStyles from "./styles";
@@ -131,7 +137,7 @@ const Form = () => {
         </Typography>
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth>
+        <FormControl required fullWidth>
           <InputLabel>Type</InputLabel>
           <Select
             value={formData.type}
@@ -177,6 +183,7 @@ const Form = () => {
           type="date"
           label="date"
           fullWidth
+          required
           value={formData.date}
           onChange={(e) =>
             setFormData({ ...formData, date: formatDate(e.target.value) })
@@ -190,10 +197,17 @@ const Form = () => {
           onClick={createTransaction}
           type="submit"
           className={classes.button}
-          size="large"
         >
           Create
         </Button>
+
+        <PushToTalkButton
+          hide="false"
+          capturekey="(a spacebar)"
+          intro="Push to talk"
+          size="55px"
+          gradientStops={["#00ff00", "#00ff00"]}
+        />
       </div>
     </Grid>
   );

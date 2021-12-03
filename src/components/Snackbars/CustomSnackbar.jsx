@@ -13,7 +13,7 @@ const CustomSnackbar = () => {
     if (reason === "clickaway") return;
     setOpen(!open);
 
-    setAlertType("SUCCESS");
+    setAlertType("");
   };
 
   const alertMessage = (alertType) => {
