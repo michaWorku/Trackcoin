@@ -198,7 +198,6 @@ const Form = () => {
         </Button>
 
         <PushToTalkButton
-          hide="false"
           capturekey="(a spacebar)"
           intro="Push to talk"
           size="55px"

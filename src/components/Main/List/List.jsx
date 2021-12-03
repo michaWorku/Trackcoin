@@ -56,9 +56,8 @@ const List = () => {
                 <Delete
                   onClick={() => {
                     deleteTransaction(transaction.id);
-
-                    setOpen(true);
                     setAlertType("DELETE");
+                    setOpen(true);
                   }}
                 />
               </IconButton>
