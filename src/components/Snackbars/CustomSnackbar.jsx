@@ -12,6 +12,9 @@ const CustomSnackbar = () => {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") return;
     setOpen(!open);
+  };
+
+  const handleExited = () => {
     setAlertType("");
   };
 
@@ -45,6 +48,7 @@ const CustomSnackbar = () => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         autoHideDuration={6000}
+        TransitionProps={{ onExited: handleExited }}
         onClose={handleClose}
       >
         <MuiAlert

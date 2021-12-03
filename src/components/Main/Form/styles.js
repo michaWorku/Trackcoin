@@ -15,10 +15,6 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   buttonEdit: {
-    //backgroundColor: blue[300],
-
-    backgroundImage:
-      "linear-gradient(to right bottom, rgba(0,0,255,0.9), rgba(0,0,0,0.1))",
     color: "rgba(0,0,255,0.8)",
     fontWeight: 600,
     borderRadius: 20,
