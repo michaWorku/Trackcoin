@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   List as MUIList,
   ListItem,
@@ -15,13 +16,50 @@ import { useGlobalContext } from "../../../context/context";
 
 const List = () => {
   const {
+    initialFormData,
+    setFormData,
     transactions,
     editTransaction,
     deleteTransaction,
-    setAlertType,
-    setOpen,
+    snackPack,
+    setSnackPack,
   } = useGlobalContext();
   const classes = useStyles();
+
+  const init = () => {
+    setFormData(initialFormData);
+    setSnackPack([]);
+  };
+
+  const handleEdit = (id) => {
+    if (!snackPack.length) {
+      editTransaction(id);
+    } else {
+      init();
+      editTransaction(id);
+    }
+    setSnackPack((prev) => [
+      ...prev,
+      {
+        message: "Transaction successfully updated",
+        key: uuidv4(),
+        type: "edit",
+      },
+    ]);
+  };
+
+  const handleDelete = (id) => {
+    init();
+    deleteTransaction(id);
+    setSnackPack((prev) => [
+      ...prev,
+      {
+        message: "Transaction successfully removed",
+        key: uuidv4(),
+        type: "error",
+      },
+    ]);
+  };
 
   return (
     <MUIList dense={false} className={classes.list}>
@@ -47,17 +85,14 @@ const List = () => {
               <IconButton edge="end" aria-label="edit">
                 <Edit
                   onClick={() => {
-                    editTransaction(transaction.id);
-                    setAlertType("EDIT");
+                    handleEdit(transaction.id);
                   }}
                 />
               </IconButton>
               <IconButton edge="end" aria-label="delete">
                 <Delete
                   onClick={() => {
-                    deleteTransaction(transaction.id);
-                    setAlertType("DELETE");
-                    setOpen(true);
+                    handleDelete(transaction.id);
                   }}
                 />
               </IconButton>

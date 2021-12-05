@@ -35,9 +35,8 @@ const Form = () => {
     setFormData,
     addTransaction,
     deleteTransaction,
-    alertType,
-
-    setOpen,
+    snackPack,
+    setSnackPack,
   } = useGlobalContext();
 
   const selectedCategories =
@@ -52,12 +51,28 @@ const Form = () => {
       return;
     }
 
-    setOpen(true);
-
-    if (alertType === "EDIT") {
+    if (snackPack.length && snackPack[0].type === "edit") {
+      setSnackPack([]);
+      setSnackPack((prev) => [
+        ...prev,
+        {
+          message: "Transaction successfully updated",
+          key: uuidv4(),
+          type: "info",
+        },
+      ]);
       deleteTransaction(formData.id);
       addTransaction({ ...formData, amount: +formData.amount });
     } else {
+      setSnackPack((prev) => [
+        ...prev,
+        {
+          message: "Transaction successfully created",
+          key: uuidv4(),
+          type: "success",
+        },
+      ]);
+
       addTransaction({ ...formData, amount: +formData.amount, id: uuidv4() });
     }
     setFormData(initialFormData);
@@ -191,9 +206,13 @@ const Form = () => {
           endIcon={<AttachMoney align="center" />}
           onClick={createTransaction}
           type="submit"
-          className={alertType === "EDIT" ? classes.buttonEdit : classes.button}
+          className={
+            snackPack.length && snackPack[0].type === "edit"
+              ? classes.buttonEdit
+              : classes.button
+          }
         >
-          {alertType === "EDIT" ? "Edit" : "Create"}
+          {snackPack.length && snackPack[0].type === "edit" ? "Edit" : "Create"}
         </Button>
 
         <PushToTalkButton
