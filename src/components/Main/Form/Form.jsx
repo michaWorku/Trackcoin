@@ -46,10 +46,10 @@ const Form = () => {
   const createTransaction = () => {
     if (
       !formData.category ||
-      !Number(formData.amount) ||
+      Number(formData.amount) === 0 ||
       !formData.date.includes("-")
     ) {
-      formRef.current.reportValidity();
+      setFormData({ ...formData, amount: "" });
       return;
     }
 
@@ -213,7 +213,11 @@ const Form = () => {
           <Button
             variant="contained"
             endIcon={<AttachMoney align="center" />}
-            onClick={createTransaction}
+            onClick={(e) => {
+              e.preventDefault();
+              formRef.current.reportValidity();
+              createTransaction();
+            }}
             type="submit"
             className={
               snackPack.length && snackPack[0].type === "edit"

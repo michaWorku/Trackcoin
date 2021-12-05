@@ -16,8 +16,7 @@ import { useGlobalContext } from "../../../context/context";
 
 const List = () => {
   const {
-    initialFormData,
-    setFormData,
+    init,
     transactions,
     editTransaction,
     deleteTransaction,
@@ -25,11 +24,6 @@ const List = () => {
     setSnackPack,
   } = useGlobalContext();
   const classes = useStyles();
-
-  const init = () => {
-    setFormData(initialFormData);
-    setSnackPack([]);
-  };
 
   const handleEdit = (id) => {
     if (!snackPack.length) {
@@ -84,14 +78,16 @@ const List = () => {
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="edit">
                 <Edit
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     handleEdit(transaction.id);
                   }}
                 />
               </IconButton>
               <IconButton edge="end" aria-label="delete">
                 <Delete
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     handleDelete(transaction.id);
                   }}
                 />

@@ -1,7 +1,6 @@
 import React, { useState, createContext, useReducer, useContext } from "react";
 import contextReducer from "./contextReducer";
 import formatDate from "../utils/formatDate";
-import { v4 as uuidv4 } from "uuid";
 
 const initialTransaction =
   JSON.parse(localStorage.getItem("transactions")) || [];
@@ -23,6 +22,11 @@ export const Provider = ({ children }) => {
   const [formData, setFormData] = useState(initialFormData);
 
   const [snackPack, setSnackPack] = useState([]);
+
+  const init = () => {
+    setFormData(initialFormData);
+    setSnackPack([]);
+  };
 
   const editTransaction = (id) => {
     const selected = transactions.filter(
@@ -59,6 +63,7 @@ export const Provider = ({ children }) => {
         balance,
         snackPack,
         setSnackPack,
+        init,
       }}
     >
       {children}
