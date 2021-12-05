@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { PushToTalkButton } from "@speechly/react-ui";
 
@@ -28,6 +28,7 @@ import { AttachMoney } from "@material-ui/icons";
 
 const Form = () => {
   const classes = useStyles();
+  const formRef = useRef();
   const { segment } = useSpeechContext();
   const {
     initialFormData,
@@ -48,6 +49,7 @@ const Form = () => {
       !Number(formData.amount) ||
       !formData.date.includes("-")
     ) {
+      formRef.current.reportValidity();
       return;
     }
 
@@ -135,94 +137,104 @@ const Form = () => {
   }, [segment]);
 
   return (
-    <Grid required container spacing={2}>
-      <CustomSnackbar />
-      <Grid items xs={12}>
-        <Typography variant="subtitle2" align="center" gutterBottom>
-          {segment ? (
-            <div className="segment">
-              {segment.words.map((w) => w.value).join(" ")}
-            </div>
-          ) : null}
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <FormControl required fullWidth>
-          <InputLabel>Type</InputLabel>
-          <Select
-            value={formData.type}
-            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-          >
-            <MenuItem value="Income">Income</MenuItem>
-            <MenuItem value="Expense">Expense</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={6}>
-        <FormControl required fullWidth>
-          <InputLabel>Category</InputLabel>
-          <Select
-            value={formData.category}
+    <form ref={formRef}>
+      <Grid required container spacing={2}>
+        <CustomSnackbar />
+        <Grid items xs={12}>
+          <Typography variant="subtitle2" align="center" gutterBottom>
+            {segment ? (
+              <div className="segment">
+                {segment.words.map((w) => w.value).join(" ")}
+              </div>
+            ) : null}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl required fullWidth>
+            <InputLabel>Type</InputLabel>
+            <Select
+              value={formData.type}
+              onChange={(e) =>
+                setFormData({ ...formData, type: e.target.value })
+              }
+            >
+              <MenuItem value="Income">Income</MenuItem>
+              <MenuItem value="Expense">Expense</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl required fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
+              {selectedCategories.map((c) => (
+                <MenuItem key={c.type} value={c.type}>
+                  {c.type}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            type="number"
+            label="amount"
+            fullWidth
+            required
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
+            value={formData.amount}
             onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
+              setFormData({ ...formData, amount: e.target.value })
+            }
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            type="date"
+            label="date"
+            fullWidth
+            required
+            value={formData.date}
+            onChange={(e) =>
+              setFormData({ ...formData, date: formatDate(e.target.value) })
+            }
+          />
+        </Grid>
+        <div className={classes.buttonCon}>
+          <Button
+            variant="contained"
+            endIcon={<AttachMoney align="center" />}
+            onClick={createTransaction}
+            type="submit"
+            className={
+              snackPack.length && snackPack[0].type === "edit"
+                ? classes.buttonEdit
+                : classes.button
             }
           >
-            {selectedCategories.map((c) => (
-              <MenuItem key={c.type} value={c.type}>
-                {c.type}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={6}>
-        <TextField
-          type="number"
-          label="amount"
-          fullWidth
-          required
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          value={formData.amount}
-          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-        />
-      </Grid>
-      <Grid item xs={6}>
-        <TextField
-          type="date"
-          label="date"
-          fullWidth
-          required
-          value={formData.date}
-          onChange={(e) =>
-            setFormData({ ...formData, date: formatDate(e.target.value) })
-          }
-        />
-      </Grid>
-      <div className={classes.buttonCon}>
-        <Button
-          variant="contained"
-          endIcon={<AttachMoney align="center" />}
-          onClick={createTransaction}
-          type="submit"
-          className={
-            snackPack.length && snackPack[0].type === "edit"
-              ? classes.buttonEdit
-              : classes.button
-          }
-        >
-          {snackPack.length && snackPack[0].type === "edit" ? "Edit" : "Create"}
-        </Button>
+            {snackPack.length && snackPack[0].type === "edit"
+              ? "Edit"
+              : "Create"}
+          </Button>
 
-        <PushToTalkButton
-          capturekey="(a spacebar)"
-          intro="Push to talk or hold a spacebar"
-          size="55px"
-          gradientStops={["#00ff00", "#00ff00"]}
-        />
-      </div>
-    </Grid>
+          <PushToTalkButton
+            capturekey="(a spacebar)"
+            intro="Push to talk or hold a spacebar"
+            size="55px"
+            gradientStops={["#00ff00", "#00ff00"]}
+          />
+        </div>
+      </Grid>
+    </form>
   );
 };
 
