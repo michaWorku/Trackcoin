@@ -47,6 +47,7 @@ const Form = () => {
     if (
       !formData.category ||
       Number(formData.amount) === 0 ||
+      Number.isNaN(Number(formData.amount)) ||
       !formData.date.includes("-")
     ) {
       setFormData({ ...formData, amount: "" });
