@@ -41,28 +41,14 @@ export default function ConsecutiveSnackbars() {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         key={messageInfo ? messageInfo.key : undefined}
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={handleClose}
-        severity={messageInfo ? messageInfo.type : undefined}
         TransitionProps={{ onExited: handleExited }}
-        message={messageInfo ? messageInfo.message : undefined}
-        action={
-          <>
-            <MuiAlert
-              onClose={handleClose}
-              severity={messageInfo ? messageInfo.type : "warning"}
-              elevation={6}
-              variant="filled"
-            >
-              {messageInfo ? messageInfo.message : undefined}
-            </MuiAlert>
-          </>
-        }
       >
         <>
           <MuiAlert
             onClose={handleClose}
-            severity={messageInfo ? messageInfo.type : "warning"}
+            severity={messageInfo ? messageInfo.type : undefined}
             elevation={6}
             variant="filled"
           >
